@@ -2,15 +2,14 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const path = require('path'); // Import the path module
+const path = require('path');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'front','views'));
+app.set('views', path.join(__dirname, 'front', 'views'));
 
-//MongoDB
 mongoose.connect('mongodb://localhost:27017/portfolio', { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -23,14 +22,22 @@ const userSchema = new mongoose.Schema({
     username: String,
     phone: String,
     password: String,
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user'
+    }
 });
 
 const User = mongoose.model('User', userSchema);
 
-
 app.get('/', (req, res) => {
     res.render('index'); // Render the index.ejs file
 });
+app.get('/register', (req, res) => {
+    res.render('loginreg');
+});
+
 
 app.post('/register', async (req, res) => {
     try {
@@ -40,6 +47,7 @@ app.post('/register', async (req, res) => {
             username: req.body.username,
             phone: req.body.phone,
             password: hashedPassword,
+            role: req.body.role // Get the role from the registration form
         });
         await user.save();
         res.send('Registration successful');
@@ -58,11 +66,31 @@ app.post('/login', async (req, res) => {
         if (!validPassword) {
             return res.status(400).send('Invalid password');
         }
-        res.send('Login successful');
+        if (user.role === 'admin') {
+            return res.redirect('/admin');
+        } else {
+            return res.redirect('/');
+        }
     } catch (error) {
         res.status(500).send('Error logging in');
     }
 });
+
+
+const requireRole = (role) => {
+    return (req, res, next) => {
+        if (req.session.user && req.session.user.role === role) {
+            return next();
+        } else {
+            return res.status(403).send('Unauthorized');
+        }
+    };
+};
+
+app.get('/admin', requireRole('admin'), (req, res) => {
+    res.send('Welcome to the admin page');
+});
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
