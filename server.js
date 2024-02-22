@@ -31,13 +31,31 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+// Middleware to authenticate user
+const authenticateUser = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ username: req.body.username });
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        const validPassword = await bcrypt.compare(req.body.password, user.password);
+        if (!validPassword) {
+            return res.status(400).send('Invalid password');
+        }
+        req.user = user; // Attach user object to request
+        next(); // Proceed to next middleware/route handler
+    } catch (error) {
+        res.status(500).send('Error logging in');
+    }
+};
+
 app.get('/', (req, res) => {
     res.render('index'); // Render the index.ejs file
 });
+
 app.get('/register', (req, res) => {
     res.render('loginreg');
 });
-
 
 app.post('/register', async (req, res) => {
     try {
@@ -56,39 +74,21 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.post('/login', async (req, res) => {
-    try {
-        const user = await User.findOne({ username: req.body.username });
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        const validPassword = await bcrypt.compare(req.body.password, user.password);
-        if (!validPassword) {
-            return res.status(400).send('Invalid password');
-        }
-        if (user.role === 'admin') {
-            return res.redirect('/admin');
-        } else {
-            return res.redirect('/');
-        }
-    } catch (error) {
-        res.status(500).send('Error logging in');
+app.post('/login', authenticateUser, (req, res) => {
+    if (req.user.role === 'admin') {
+        return res.redirect('/admin');
+    } else {
+        return res.redirect('/');
     }
 });
 
-
-const requireRole = (role) => {
-    return (req, res, next) => {
-        if (req.session.user && req.session.user.role === role) {
-            return next();
-        } else {
-            return res.status(403).send('Unauthorized');
-        }
-    };
-};
-
-app.get('/admin', requireRole('admin'), (req, res) => {
-    res.send('Welcome to the admin page');
+// Apply authenticateUser middleware to the /admin route
+app.get('/admin', authenticateUser, (req, res) => {
+    if (req.user && req.user.role === 'admin') {
+        res.render('admin'); // Render the admin page
+    } else {
+        res.status(403).send('Unauthorized'); // If not admin, send forbidden status
+    }
 });
 
 const PORT = 3000;
