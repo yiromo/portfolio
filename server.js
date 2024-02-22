@@ -6,6 +6,8 @@ const path = require('path');
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'front')));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'front', 'views'));
@@ -75,10 +77,14 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', authenticateUser, (req, res) => {
-    if (req.user.role === 'admin') {
-        return res.redirect('/admin');
+    if (req.user) {
+        if (req.user.role === 'admin') {
+            return res.redirect('/admin');
+        } else {
+            return res.redirect('/');
+        }
     } else {
-        return res.redirect('/');
+        res.status(400).send('Invalid username or password');
     }
 });
 
