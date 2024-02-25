@@ -11,15 +11,19 @@
     <h1>Welcome to My Portfolio</h1>
     <% if (loggedIn) { %>
         <!-- Show user info and logout button -->
-        <p>Welcome, <%= user.name %> (<%= user.username %>)</p>
+        <i class="fa-regular fa-user"></i>
+        <p>Welcome, <%= user.name %>  (<%= user.username %>)</p>
         <form action="/logout" method="post">
-            <button type="submit">Logout</button>
+            <button type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
         </form>
     <% } else { %>
         <!-- Show register button -->
         <button onclick="location.href='/register';"><i class="fa-solid fa-arrow-right-to-bracket"></i> Register</button>
     <% } %>
 </div>
+<div class="portfolio" id="portfolioItems">
+</div>
+
 <div class="portfolioStatic"></div>
 <h2>Professional Goals</h2>
 <p>My main goal is to become a competent specialist in software development focused on artificial intelligence and machine learning. I am passionate about the opportunities provided by these technologies and strive to delve deeper into this field and become an expert in it.</p>
@@ -67,9 +71,12 @@
     </li>
 </ul>
 <h2>Technology Stack:</h2>
-<p>Node.js, JS, HTML, CSS, Java, PostgreSQL, MongoDB, React.</p>
-<div class="portfolio" id="portfolioItems">
-</div>
+<ul>
+    <li>
+        <p>Node.js, JS, HTML, CSS, Java, PostgreSQL, MongoDB, React.</p>
+    </li>
+</ul>
+
 <footer>
     <a href="https://instagram.com/yiromo"><i class="fa-brands fa-instagram"></i></a>
 </footer>

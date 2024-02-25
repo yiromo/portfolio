@@ -72,10 +72,8 @@ footer {
     background-color: #004080; /* Dark blue footer background */
     padding: 20px;
     text-align: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    width: 100%; /* Full width */
+    clear: both; /* Ensure it clears both floated and non-floated elements */
 }
 
 footer a {
