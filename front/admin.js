@@ -45,9 +45,10 @@ function fetchPortfolioItems() {
             portfolioItemsDiv.innerHTML = ''; // Clear existing items
             data.forEach(item => {
                 const itemDiv = document.createElement('div');
+                itemDiv.id = item._id;
                 itemDiv.innerHTML = `
-                    <h3>${item.information}</h3>
-                    <p>${item.description}</p>
+                    <h3 class="information">${item.information}</h3>
+                    <p class="description">${item.description}</p>
                      ${renderImages(item.files)}
                     <button onclick="editPortfolioItem('${item._id}')" >Edit</button>
                     <button onclick="deletePortfolioItem('${item._id}')" >Delete</button>
@@ -57,7 +58,6 @@ function fetchPortfolioItems() {
         })
         .catch(error => console.error('Error:', error));
 }
-
 function renderImages(files) {
     if (!files || files.length === 0) {
         return ''; // No files to render

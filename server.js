@@ -3,9 +3,36 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+const NewsAPI = require('newsapi');
+const newsapi = new NewsAPI('c71959a64cc749c3b23722ef5b0c5c2c');
+
+newsapi.v2.topHeadlines({
+    q: 'bitcoin',
+    category: 'business',
+    language: 'en',
+    country: 'us'
+}).then(response => {
+    console.log(response);
+});
 
 const app = express();
 const session = require('express-session');
+
+app.get('/news', async (req, res) => {
+    try {
+        const response = await newsapi.v2.topHeadlines({
+            q: 'bitcoin',
+            category: 'business',
+            language: 'en',
+            country: 'us',
+            apiKey: 'c71959a64cc749c3b23722ef5b0c5c2c'
+        });
+        res.json(response.articles);
+    } catch (error) {
+        console.error('Error fetching news:', error);
+        res.status(500).json({ error: 'Failed to fetch news articles' });
+    }
+});
 
 app.use(session({
     secret: 'your-secret-key',
