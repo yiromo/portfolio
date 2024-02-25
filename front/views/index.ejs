@@ -9,7 +9,16 @@
 <body>
 <div class="header">
     <h1>Welcome to My Portfolio</h1>
-    <button onclick="location.href='/register';"><i class="fa-solid fa-arrow-right-to-bracket"></i> Register</button>
+    <% if (loggedIn) { %>
+        <!-- Show user info and logout button -->
+        <p>Welcome, <%= user.name %> (<%= user.username %>)</p>
+        <form action="/logout" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    <% } else { %>
+        <!-- Show register button -->
+        <button onclick="location.href='/register';"><i class="fa-solid fa-arrow-right-to-bracket"></i> Register</button>
+    <% } %>
 </div>
 <div class="portfolioStatic"></div>
 <h2>Professional Goals</h2>

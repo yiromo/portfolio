@@ -5,6 +5,13 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 const app = express();
+const session = require('express-session');
+
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use(express.static(path.join(__dirname, 'front')));
 
@@ -146,7 +153,7 @@ const authenticateUser = async (req, res, next) => {
 
 
 app.get('/', (req, res) => {
-    res.render('index'); // Render the index.ejs file
+    res.render('index', { user: req.session.user, loggedIn: req.session.loggedIn });
 });
 
 app.get('/register', (req, res) => {
@@ -168,6 +175,8 @@ app.post('/register', async (req, res) => {
             role: req.body.role // Get the role from the registration form
         });
         await user.save();
+        req.session.loggedIn = true;
+        req.session.user = user;
         res.send('Registration successful');
     } catch (error) {
         res.status(500).send('Error registering user');
@@ -187,6 +196,8 @@ app.post('/login', authenticateUser, async (req, res) => {
             return res.status(400).json({ error: 'Invalid password' });
         }
 
+        req.session.loggedIn = true;
+        req.session.user = user;
         console.log('Authentication successful');
         console.log('User found:', user);
 
@@ -198,6 +209,17 @@ app.post('/login', authenticateUser, async (req, res) => {
     }
 });
 
+app.post('/logout', (req, res) => {
+    // Clear the user session
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error logging out:', err);
+            res.status(500).send('Error logging out');
+        } else {
+            res.redirect('/'); // Redirect to the home page after logout
+        }
+    });
+});
 
 app.get('/admin', authenticateUser, (req, res) => {
     if (req.user && req.user.role === 'admin') {
