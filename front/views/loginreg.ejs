@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
     <title>User Registration and Login</title>
 </head>
 <body>
 <h1>User Registration</h1>
-<form action="/register" method="post">
+<form id="registerForm" action="/register" method="post">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required><br>
     <label for="username">Username:</label>
@@ -16,19 +17,68 @@
     <input type="text" id="phone" name="phone" required><br>
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required><br>
-    <button type="submit">Register</button>
+    <button type="submit" class="btn btn-primary">Register</button>
 </form>
 
 <h1>User Login</h1>
-<form action="/login" method="post">
+<form id="loginForm" action="/login" method="post" style="display: none;">
     <label for="loginUsername">Username:</label>
     <input type="text" id="loginUsername" name="username" required><br>
 
     <label for="loginPassword">Password:</label>
     <input type="password" id="loginPassword" name="password" required><br>
 
-    <button type="submit">Login</button>
+    <button type="submit" class="btn btn-primary">Login</button>
 </form>
+<button id="toggleBtn">Switch to Login</button>
 </body>
 <script src="../script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const registerForm = document.getElementById('registerForm');
+        const loginForm = document.getElementById('loginForm');
+        const toggleBtn = document.getElementById('toggleBtn');
+
+        toggleBtn.addEventListener('click', function() {
+            if (registerForm.style.display === 'none') {
+                // Show register form and hide login form
+                registerForm.style.display = 'block';
+                loginForm.style.display = 'none';
+                toggleBtn.textContent = 'Switch to Login';
+            } else {
+                // Show login form and hide register form
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                toggleBtn.textContent = 'Switch to Register';
+            }
+        });
+
+        // Event listener for login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            // Fetch API to make the POST request
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: document.getElementById('loginUsername').value,
+                    password: document.getElementById('loginPassword').value
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.role === 'admin') {
+                        window.location.href = '/admin'; // Redirect to admin page
+                    } else {
+                        window.location.href = '/'; // Redirect to home page
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+
+</script>
 </html>

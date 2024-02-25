@@ -14,6 +14,76 @@ app.set('views', path.join(__dirname, 'front', 'views'));
 
 app.use(express.json());
 
+const portfolioItemSchema = new mongoose.Schema({
+    information: String,
+    description: String,
+    files: [String], // Array of file URLs (pictures or videos)
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+});
+
+const PortfolioItem = mongoose.model('PortfolioItem', portfolioItemSchema);
+
+// Create a new portfolio item
+// Create a new portfolio item
+app.post('/api/portfolio', async (req, res) => {
+    try {
+        const { information, description, files } = req.body;
+
+        const portfolioItem = new PortfolioItem({
+            information: information,
+            description: description,
+            files: files || []
+        });
+
+        await portfolioItem.save();
+
+        res.status(201).json({ message: 'Portfolio item created successfully', portfolioItem });
+    } catch (error) {
+        console.error('Error creating portfolio item:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+// Get all portfolio items
+app.get('/api/portfolio', async (req, res) => {
+    try {
+        const portfolioItems = await PortfolioItem.find();
+        res.json(portfolioItems);
+    } catch (error) {
+        console.error('Error getting portfolio items:', error);
+        res.status(500).send('Error getting portfolio items');
+    }
+});
+
+// Update a portfolio item
+app.put('/api/portfolio/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { information, description, files } = req.body;
+        const updatedItem = await PortfolioItem.findByIdAndUpdate(id, { information, description, files, updatedAt: Date.now() }, { new: true });
+        res.json(updatedItem);
+    } catch (error) {
+        console.error('Error updating portfolio item:', error);
+        res.status(500).send('Error updating portfolio item');
+    }
+});
+
+// Delete a portfolio item
+app.delete('/api/portfolio/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await PortfolioItem.findByIdAndDelete(id);
+        res.send('Portfolio item deleted successfully');
+    } catch (error) {
+        console.error('Error deleting portfolio item:', error);
+        res.status(500).send('Error deleting portfolio item');
+    }
+});
+
+
+
 mongoose.connect('mongodb://localhost:27017/portfolio', { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -120,16 +190,14 @@ app.post('/login', authenticateUser, async (req, res) => {
         console.log('Authentication successful');
         console.log('User found:', user);
 
-        if (user.role === 'admin') {
-            res.redirect('/admin'); // Redirect to admin page
-        } else {
-            res.redirect('/'); // Redirect to home page
-        }
+        // Instead of redirecting, send a JSON response with the user's role
+        res.status(200).json({ role: user.role });
     } catch (error) {
         console.error('Error logging in:', error);
         res.status(500).json({ error: 'Error logging in' });
     }
 });
+
 
 app.get('/admin', authenticateUser, (req, res) => {
     if (req.user && req.user.role === 'admin') {

@@ -1,47 +1,156 @@
 body {
-    font-family: Droid Sans, sans-serif;
-    margin: 0;
-    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 1.6rem; /* Increased font size for better readability */
+    background-color: #1e1e1e; /* Darker background color */
+    color: #ccc; /* Light text color */
 }
 
 .header {
-    background-color: #46211A;
-    color: #fff;
-    padding: 15px;
+    background-color: #004080; /* Dark blue header background */
+    padding: 30px 20px; /* Increased padding for better spacing */
     text-align: center;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
 }
 
-button{
-    font-family: "Droid Sans", sans-serif;
-    font-weight: 700;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-radius: 25px;
+.header h1 {
+    color: #fff; /* White text color */
+    margin: 0;
 }
+
 .portfolio {
-    padding: 20px;
+    margin: 40px auto; /* Increased margin for better spacing */
+    max-width: 800px;
+    padding: 30px;
+    background-color: #333; /* Dark background */
+    border-radius: 15px; /* Increased border radius for smoother edges */
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8); /* Darker shadow */
+    color: #ccc; /* Light text color */
 }
 
 .portfolio h2 {
-    margin-bottom: 20px;
+    color: #ccc; /* Light gray heading color */
+    margin-bottom: 30px; /* Increased margin bottom for better spacing */
+    text-align: center;
+}
+
+.portfolioStatic {
+    margin: 40px auto; /* Increased margin for better spacing */
+    max-width: 800px;
+    padding: 30px;
+    background-color: #333; /* Dark background */
+    border-radius: 15px; /* Increased border radius for smoother edges */
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8); /* Darker shadow */
+    color: #ccc; /* Light text color */
+}
+
+.portfolioStatic h2 {
+    color: #ccc; /* Light gray heading color */
+    margin-bottom: 30px; /* Increased margin bottom for better spacing */
+    text-align: center;
 }
 
 .portfolio-item {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
+    border-bottom: 1px solid #555; /* Dark gray border bottom */
+    padding-bottom: 20px;
     margin-bottom: 20px;
 }
 
 .portfolio-item h3 {
+    color: #bbb; /* Light gray heading color */
     margin-top: 0;
 }
 
+.portfolio-item p {
+    color: #aaa; /* Light gray text color */
+}
+
 footer {
-    background-color: #46211A;
-    color: #fff;
-    padding: 10px 20px;
+    background-color: #004080; /* Dark blue footer background */
+    padding: 20px;
     text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+footer a {
+    color: #fff; /* White text color */
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+/* Button Styles */
+button {
+    padding: 12px 24px; /* Increased padding for better button size */
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    background-color: #007bff; /* Default blue color */
+    color: #fff; /* White text color */
+    font-size: 1.4rem; /* Increased font size for buttons */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Input Styles */
+input[type="text"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #555; /* Dark gray border */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #333; /* Dark background */
+    color: #ccc; /* Light text color */
+    font-size: 1.4rem; /* Increased font size for better readability */
+}
+
+input[type="file"] {
+    margin-top: 10px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    border-color: #007bff; /* Blue border color on focus */
+    outline: none; /* Remove default focus outline */
+}
+
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#toggleBtn {
+    margin-top: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+
+#registerForm, #loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+}
+
+
+.hide-form {
+    transform: translateX(-100%);
 }
