@@ -1,104 +1,108 @@
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
-    font-size: 1.6rem; /* Increased font size for better readability */
-    background-color: #1e1e1e; /* Darker background color */
+    background-color: #1a1a1a; /* Dark background color */
     color: #ccc; /* Light text color */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .header {
-    background-color: #004080; /* Dark blue header background */
+    background-color: #333; /* Dark grey header background */
     padding: 30px 20px; /* Increased padding for better spacing */
     text-align: center;
+    color: #fff; /* White text color */
 }
 
 .header h1 {
-    color: #fff; /* White text color */
     margin: 0;
+    font-size: 2.5rem; /* Increased font size for header */
 }
 
-.portfolio {
-    margin: 40px auto; /* Increased margin for better spacing */
-    max-width: 800px;
-    padding: 30px;
-    background-color: #333; /* Dark background */
-    border-radius: 15px; /* Increased border radius for smoother edges */
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8); /* Darker shadow */
-    color: #ccc; /* Light text color */
+.header nav ul {
+    list-style-type: none;
+    padding: 0;
 }
 
-.portfolio h2 {
-    color: #ccc; /* Light gray heading color */
-    margin-bottom: 30px; /* Increased margin bottom for better spacing */
-    text-align: center;
+.header nav ul li {
+    display: inline;
+    margin-right: 20px;
 }
 
+.header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.header nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.portfolio,
 .portfolioStatic {
-    margin: 40px auto; /* Increased margin for better spacing */
-    max-width: 800px;
-    padding: 30px;
-    background-color: #333; /* Dark background */
-    border-radius: 15px; /* Increased border radius for smoother edges */
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8); /* Darker shadow */
-    color: #ccc; /* Light text color */
+    background-color: #333; /* Dark grey background color */
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1); /* Soft shadow */
 }
 
+.portfolio h2,
 .portfolioStatic h2 {
-    color: #ccc; /* Light gray heading color */
-    margin-bottom: 30px; /* Increased margin bottom for better spacing */
+    margin-top: 0;
+    margin-bottom: 20px; /* Increased margin bottom for better spacing */
+    font-size: 2rem; /* Increased font size for section headings */
+    color: #fff; /* White text color */
     text-align: center;
-}
-
-.portfolio-item {
-    border-bottom: 1px solid #555; /* Dark gray border bottom */
-    padding-bottom: 20px;
-    margin-bottom: 20px;
 }
 
 .portfolio-item h3 {
-    color: #bbb; /* Light gray heading color */
     margin-top: 0;
+    font-size: 1.8rem; /* Increased font size for project titles */
 }
 
 .portfolio-item p {
-    color: #aaa; /* Light gray text color */
+    font-size: 1.4rem; /* Font size for project descriptions */
+    color: #ccc; /* Light gray text color */
 }
 
 footer {
-    background-color: #004080; /* Dark blue footer background */
+    background-color: #333; /* Dark grey background color */
     padding: 20px;
     text-align: center;
-    width: 100%; /* Full width */
-    clear: both; /* Ensure it clears both floated and non-floated elements */
+    color: #fff; /* White text color */
 }
 
 footer a {
-    color: #fff; /* White text color */
+    color: #fff;
     text-decoration: none;
     margin: 0 10px;
 }
 
-/* Button Styles */
 button {
-    padding: 12px 24px; /* Increased padding for better button size */
+    padding: 12px 24px;
     border: none;
     border-radius: 8px; /* Rounded corners */
     cursor: pointer;
-    background-color: #007bff; /* Default blue color */
-    color: #fff; /* White text color */
-    font-size: 1.4rem; /* Increased font size for buttons */
-    transition: background-color 0.3s ease; /* Smooth transition */
+    background-color: #0070c9; /* Apple's Blue */
+    color: #fff;
+    font-size: 1.4rem;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #005ea6; /* Darker blue on hover */
 }
 
-/* Input Styles */
+input[type="email"],
 input[type="text"],
 input[type="password"],
 textarea {
@@ -106,9 +110,9 @@ textarea {
     padding: 12px;
     margin: 8px 0;
     box-sizing: border-box;
-    border: 2px solid #555; /* Dark gray border */
+    border: 2px solid #555; /* Dark grey border */
     border-radius: 8px; /* Rounded corners */
-    background-color: #333; /* Dark background */
+    background-color: #222; /* Dark background */
     color: #ccc; /* Light text color */
     font-size: 1.4rem; /* Increased font size for better readability */
 }
@@ -117,13 +121,13 @@ input[type="file"] {
     margin-top: 10px;
 }
 
+input[type="email"]:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
 textarea:focus {
-    border-color: #007bff; /* Blue border color on focus */
+    border-color: #0070c9; /* Blue border color on focus */
     outline: none; /* Remove default focus outline */
 }
-
 
 .form-container {
     display: flex;
@@ -140,7 +144,6 @@ textarea:focus {
     right: 20px;
 }
 
-
 #registerForm, #loginForm {
     display: flex;
     flex-direction: column;
@@ -148,7 +151,46 @@ textarea:focus {
     width: 300px;
 }
 
-
 .hide-form {
     transform: translateX(-100%);
 }
+
+.news {
+    background-color: #222; /* Dark grey background color */
+    padding: 20px;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1); /* Soft shadow */
+}
+
+.news h1 {
+    margin-top: 0;
+    font-size: 2rem;
+    color: #ccc; /* Light text color */
+    text-align: center;
+}
+
+a {
+    color: #0070c9; /* Apple's Blue */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.github-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2EA44F; /* GitHub green color */
+    color: #FFF;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.github-button:hover {
+    background-color: #22863A; /* Darker green color on hover */
+}
+

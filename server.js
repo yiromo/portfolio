@@ -3,8 +3,12 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+const nodemailer = require('nodemailer');
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI('c71959a64cc749c3b23722ef5b0c5c2c');
+const finnhub = require('finnhub');
+const apiKey = 'cne469pr01qml3k224ngcne469pr01qml3k224o0';
+const finnhubClient = new finnhub.DefaultApi();
 
 newsapi.v2.topHeadlines({
     q: 'bitcoin',
@@ -18,6 +22,28 @@ newsapi.v2.topHeadlines({
 const app = express();
 const session = require('express-session');
 
+// StockApi
+app.get('/stock/:symbol', async (req, res) => {
+    try {
+        const { symbol } = req.params;
+
+        // Fetch stock data using Finnhub API
+        const finnhubResponse = await finnhubClient.quote(symbol, (error, data, response) => {
+            if (error) {
+                console.error('Error fetching stock data from Finnhub:', error);
+                res.status(500).json({ error: 'Failed to fetch stock data' });
+            } else {
+                console.log('Finnhub response:', data);
+                res.json(data); // Send stock data back to client
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching stock data:', error);
+        res.status(500).json({ error: 'Failed to fetch stock data' });
+    }
+});
+
+// NewsAPI
 app.get('/news', async (req, res) => {
     try {
         const response = await newsapi.v2.topHeadlines({
@@ -47,6 +73,40 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'front', 'views'));
 
 app.use(express.json());
+
+
+//nodemailer
+
+app.post('/send-email', (req, res) => {
+    const { subject, content, email } = req.body;
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'yungpxxp@gmail.com',
+            pass: 'dhgmbnsqhjdpsexh',
+        },
+    });
+
+    // Email content
+    const mailOptions = {
+        from: 'yungpxxp@gmail.com',
+        to: 'airshowyt@gmail.com', // Your email address
+        subject: subject,
+        text: `Email from: ${email}\n\n${content}`,
+    };
+
+    // Send email
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending email:', error);
+            res.status(500).send('Error sending email');
+        } else {
+            console.log('Email sent:', info.response);
+            res.status(200).send('Email sent successfully');
+        }
+    });
+});
 
 const portfolioItemSchema = new mongoose.Schema({
     information: String,

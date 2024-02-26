@@ -10,6 +10,15 @@
 <div class="header">
     <h1>Welcome to My Portfolio</h1>
     <br>
+    <nav>
+        <ul>
+            <li><a href="#intro">Intro</a></li>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#news">NEWS</a></li>
+            <li><a href="#sendEmail">Contact Me</a></li>
+        </ul>
+    </nav>
     <% if (loggedIn) { %>
         <!-- Show user info and logout button -->
         <i class="fa-regular fa-user"></i>
@@ -25,14 +34,19 @@
 <div class="portfolio" id="portfolioItems">
 </div>
 
-<div class="portfolioStatic"></div>
-<h2>Professional Goals</h2>
+<div class="portfolioStatic">
+<h2 id="intro">Intro</h2>
+<p>Hello Welcome! Here is my CV: </p>
+    <a href="../CVAmanzholovSanzhar.pdf" download="CVAmanzholovSanzhar.pdf" class="github-button">Download CV</a>
+    <hr>
+
+<h2 id="about">Professional Goals</h2>
 <p>My main goal is to become a competent specialist in software development focused on artificial intelligence and machine learning. I am passionate about the opportunities provided by these technologies and strive to delve deeper into this field and become an expert in it.</p>
 
 <h2>Interests and Hobbies</h2>
 <p>Currently, I have started studying and working with artificial intelligence and machine learning using the Python programming language and its various frameworks such as TensorFlow. Additionally, I am interested in the field of Open Source Intelligence (OSINT) and methods of collecting and analyzing data from various sources on the internet to extract useful information and analytics. I am also drawn to web technologies, and I would like to expand my knowledge in this area by learning HTML, CSS, JavaScript, and other web development tools.</p>
 
-<h2>Projects/Works:</h2>
+<h2 id="projects">Projects/Works:</h2>
 <ul>
     <li>
         <h3>SOLIDBANK:</h3>
@@ -77,19 +91,76 @@
         <p>Node.js, JS, HTML, CSS, Java, PostgreSQL, MongoDB, React.</p>
     </li>
 </ul>
-
+</div>
 <h1>
     NEWS
 </h1>
 <div class="news" id="news">
 </div>
-
+<h1>Stock</h1>
+<div class="stock-data" id="stockData">
+    <h2>Stock Information</h2>
+    <div id="stockInfo">
+    </div>
+</div>
 <br>
-<hr>
+<div class="email-form">
+    <h2 id="sendEmail">Send Email</h2>
+    <form id="emailForm">
+        <label for="from">From:</label>
+        <input type="email" id="from" required><br><br>
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required><br><br>
+        <label for="html">HTML Content:</label><br>
+        <textarea id="html" name="html" rows="4" cols="50" required></textarea><br><br>
+        <button type="submit">Send Email</button>
+    </form>
+    <div id="emailResponse"></div>
+</div>
+<br>
 <footer>
     <a href="https://instagram.com/yiromo"><i class="fa-brands fa-instagram"></i></a>
 </footer>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const emailForm = document.getElementById('emailForm');
+        const emailResponse = document.getElementById('emailResponse');
+
+        // Add event listener to the form submission
+        emailForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            const subject = document.getElementById('subject').value;
+            const htmlContent = document.getElementById('html').value;
+            const from = document.getElementById('from').value; // Get the 'from' input value
+
+            // Data to be sent in the POST request
+            const data = {
+                subject: subject,
+                content: `From: ${from}\n\n${htmlContent}`, // Add 'from' input value to the content
+            };
+
+            // Send POST request to the server
+            fetch('/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.text())
+                .then(result => {
+                    // Display the response from the server
+                    emailResponse.innerText = result;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    emailResponse.innerText = 'Error sending email';
+                });
+        });
+    });
+</script>
 <script src="../script.js"></script>
 <script src="../client.js"></script>
 <script src="https://kit.fontawesome.com/2d3632a15c.js" crossorigin="anonymous"></script>
