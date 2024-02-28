@@ -178,12 +178,13 @@ app.delete('/api/portfolio/:id', async (req, res) => {
 
 
 
-mongoose.connect('mongodb://localhost:27017/portfolio', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://yi:lkH4h6RCuOynooi2@portfolio.id7k4yj.mongodb.net/portfolio', { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
-    console.log('Connected to MongoDB');
+    console.log('Connected to MongoDB Atlas');
 });
+
 
 const userSchema = new mongoose.Schema({
     name: String,
