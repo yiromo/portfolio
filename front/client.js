@@ -1,4 +1,33 @@
+
 // Function to fetch and display portfolio items
+function renderImages(files) {
+    if (!files || files.length === 0) {
+        return ''; // No files to render
+    }
+
+    // Generate carousel HTML for image URLs
+    const carouselHTML = `
+        <div class="carousel">
+            <div class="carousel-inner">
+                ${files.map((file, index) => `
+                    <div id="carouselItem-${index}" class="carousel-item ${index === 0 ? 'active' : ''}">
+                        <img src="${file}" class="carousel-image" alt="Portfolio Image">
+                    </div>
+                `).join('')}
+            </div>
+            <button class="carousel-control-prev" onclick="prevSlide()" aria-label="Previous">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button class="carousel-control-next" onclick="nextSlide()" aria-label="Next">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    `;
+
+    return `<div class="images">${carouselHTML}</div>`;
+}
+
+
 function fetchPortfolioItems() {
     fetch('/api/portfolio')
         .then(response => response.json())
@@ -21,17 +50,6 @@ function fetchPortfolioItems() {
         })
         .catch(error => console.error('Error:', error));
 }
-
-function renderImages(files) {
-    if (!files || files.length === 0) {
-        return ''; // No files to render
-    }
-
-    // Generate <img> elements for each image URL
-    const imagesHTML = files.map(file => `<img src="${file}" alt="Portfolio Image">`).join('');
-    return `<div class="images">${imagesHTML}</div>`;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     fetch('/news')
         .then(response => response.json())

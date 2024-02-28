@@ -100,11 +100,8 @@ button {
 
 button:hover {
     background-color: #005ea6;
-    animation: pulse 2s infinite;
-}@keyframes pulse {
-     0%, 100% {transform: scale(1);}
-     50% {transform: scale(1.08);}
- }
+
+}
 
 input[type="email"],
 input[type="text"],
@@ -226,3 +223,79 @@ label{
     justify-content: center;
     align-content: center;
 }
+
+.carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-inner {
+    display: flex;
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    width: 100%;
+    transition: transform 0.6s ease;
+    transform: translateX(100%);
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.carousel-item.active {
+    transform: translateX(0);
+}
+
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    text-decoration: none;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    text-decoration: none;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.carousel-control-prev {
+    left: 10px;
+}
+
+
+
+.carousel-control-next {
+    right: 10px;
+}
+
+
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+

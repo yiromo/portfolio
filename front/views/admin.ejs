@@ -11,17 +11,19 @@
 <p>Here, you can perform administrative actions.</p>
 
 <h2>Add Portfolio Item</h2>
-<form id="addPortfolioForm" enctype="multipart/form-data">
+<form id="addPortfolioForm">
     <div class="form__group field">
-        <label for="information" >Information</label>
+        <label for="information">Information</label>
         <input type="text" placeholder="Information" name="information" id="information" required />
     </div>
     <div class="form__group field">
         <label for="description">Description</label>
         <textarea class="form__field" placeholder="Description" name="description" id="description" required></textarea>
     </div>
-    <label for="files" class="form-label">Images:</label><br>
-    <input type="file" class="form-control" id="files" name="files" multiple accept="image/*"><br>
+    <div class="form__group field">
+        <label for="imageLinks" class="form-label">Image Links (* - separated):</label><br>
+        <input type="text" class="form-control" id="imageLinks" name="imageLinks" required><br>
+    </div>
     <br>
     <button type="submit">Create a Post</button>
 </form>
@@ -29,8 +31,11 @@
 <h2>Portfolio Items</h2>
 <div id="portfolioItems">
     <!-- Portfolio items will be displayed here dynamically -->
+
 </div>
 
 </body>
+<script src="../script.js"></script>
 <script src="../admin.js"></script>
+<script src="https://kit.fontawesome.com/2d3632a15c.js" crossorigin="anonymous"></script>
 </html>

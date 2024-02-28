@@ -3,17 +3,7 @@ document.getElementById('addPortfolioForm').addEventListener('submit', function(
     const formData = new FormData(this);
     const information = formData.get('information');
     const description = formData.get('description');
-    const files = [];
-
-    // Iterate through each file in the FormData
-    for (let file of formData.getAll('files')) {
-        // Check if the file is an image
-        if (file.type.startsWith('image')) {
-            // Create a URL for the image and push it to the files array
-            const imageURL = URL.createObjectURL(file);
-            files.push(imageURL);
-        }
-    }
+    const imageLinks = formData.get('imageLinks').split('*');
 
     fetch('/api/portfolio', {
         method: 'POST',
@@ -23,7 +13,7 @@ document.getElementById('addPortfolioForm').addEventListener('submit', function(
         body: JSON.stringify({
             information: information,
             description: description,
-            files: files  // Include the array of image URLs
+            files: imageLinks // Include the array of image links
         })
     })
         .then(response => response.json())
@@ -34,6 +24,33 @@ document.getElementById('addPortfolioForm').addEventListener('submit', function(
         })
         .catch(error => console.error('Error:', error));
 });
+
+function renderImages(files) {
+    if (!files || files.length === 0) {
+        return ''; // No files to render
+    }
+
+    // Generate carousel HTML for image URLs
+    const carouselHTML = `
+        <div class="carousel">
+            <div class="carousel-inner">
+                ${files.map((file, index) => `
+                    <div id="carouselItem-${index}" class="carousel-item ${index === 0 ? 'active' : ''}">
+                        <img src="${file}" class="carousel-image" alt="Portfolio Image">
+                    </div>
+                `).join('')}
+            </div>
+            <button class="carousel-control-prev" onclick="prevSlide()" aria-label="Previous">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button class="carousel-control-next" onclick="nextSlide()" aria-label="Next">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    `;
+
+    return `<div class="images">${carouselHTML}</div>`;
+}
 
 // Function to fetch and display portfolio items
 function fetchPortfolioItems() {
@@ -57,15 +74,6 @@ function fetchPortfolioItems() {
             });
         })
         .catch(error => console.error('Error:', error));
-}
-function renderImages(files) {
-    if (!files || files.length === 0) {
-        return ''; // No files to render
-    }
-
-    // Generate <img> elements for each image URL
-    const imagesHTML = files.map(file => `<img src="${file}" alt="Portfolio Image">`).join('');
-    return `<div class="images">${imagesHTML}</div>`;
 }
 
 function editPortfolioItem(itemId) {
