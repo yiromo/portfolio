@@ -28,18 +28,15 @@
         </form>
     <% } else { %>
         <!-- Show register button -->
-        <button onclick="location.href='/register';"><i class="fa-solid fa-arrow-right-to-bracket"></i> Register</button>
+        <button onclick="location.href='/register';"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</button>
     <% } %>
 </div>
-<div class="portfolio" id="portfolioItems">
-</div>
-
+<br>
 <div class="portfolioStatic">
 <h2 id="intro">Intro</h2>
-<p>Hello Welcome! Here is my CV: </p>
-    <a href="../CVAmanzholovSanzhar.pdf" download="CVAmanzholovSanzhar.pdf" class="github-button">Download CV</a>
+<h3>Hello Welcome! Here is my CV: </h3>
+    <a href="../CVAmanzholovSanzhar.pdf" download="CVAmanzholovSanzhar.pdf" class="github-button"><i class="fa-solid fa-download"></i> Download CV</a>
     <hr>
-
 <h2 id="about">Professional Goals</h2>
 <p>My main goal is to become a competent specialist in software development focused on artificial intelligence and machine learning. I am passionate about the opportunities provided by these technologies and strive to delve deeper into this field and become an expert in it.</p>
 
@@ -92,17 +89,23 @@
     </li>
 </ul>
 </div>
+<br>
+<h1 id="projects">Projects/Works:</h1>
+<div class="portfolio" id="portfolioItems">
+</div>
+<br>
 <h1>
     NEWS
 </h1>
 <div class="news" id="news">
 </div>
-<h1>Stock</h1>
-<div class="stock-data" id="stockData">
-    <h2>Stock Information</h2>
-    <div id="stockInfo">
-    </div>
-</div>
+<h1>Stock API</h1>
+<form id="stockForm">
+    <label for="symbol">Enter Stock Symbol:</label>
+    <input type="text" id="symbol" required>
+    <button type="submit">Fetch Stock Data</button>
+</form>
+<div id="stockResult" class="stockResult"></div>
 <br>
 <div class="email-form">
     <h2 id="sendEmail">Send Email</h2>
@@ -160,6 +163,42 @@
                 });
         });
     });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const stockForm = document.getElementById('stockForm');
+        const stockResult = document.getElementById('stockResult');
+
+        stockForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            const symbol = document.getElementById('symbol').value; // Get the value entered by the user
+
+            // Fetch stock data from server using the user-entered symbol
+            fetch(`/stock/${symbol}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Format the stock data
+                    const formattedData = `
+                        <p>Open: ${data.o}</p>
+                        <p>High: ${data.h}</p>
+                        <p>Low: ${data.l}</p>
+                        <p>Close: ${data.c}</p>
+                        <p>Previous Close: ${data.pc}</p>
+                        <p>Difference: ${data.d}</p>
+                        <p>Difference Percentage: ${data.dp}</p>
+                    `;
+
+                    // Display formatted stock data in the result element
+                    stockResult.innerHTML = formattedData;
+                })
+                .catch(error => {
+                    console.error('Error fetching stock data:', error);
+                    stockResult.innerHTML = 'Error fetching stock data';
+                });
+        });
+    });
+
 </script>
 <script src="../script.js"></script>
 <script src="../client.js"></script>

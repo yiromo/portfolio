@@ -10,9 +10,9 @@ function fetchPortfolioItems() {
                 const itemDiv = document.createElement('div');
                 itemDiv.innerHTML = `
                     <div id="${item._id}" class="portfolio-item">
-                     ${renderImages(item.files)}
                         <h3 class="information">${item.information}</h3>
                         <p class="description">${item.description}</p>
+                        ${renderImages(item.files)}
                         <hr>
                     </div>
                 `;
@@ -88,36 +88,5 @@ articles.forEach(article => {
 });
 
 
-// Function to fetch stock data
-async function fetchStockData() {
-    try {
-        const response = await fetch(`https://finnhub.io/api/v1/quote?symbol=AAPL&token=cne469pr01qml3k224ngcne469pr01qml3k224o0`);
-        const data = await response.json();
 
-        if (!data.error) {
-            const stockInfo = data;
-            const stockDataElement = document.getElementById('stockInfo');
-
-            // Construct HTML to display stock data
-            const html = `
-                <p>Symbol: ${stockInfo.symbol}</p>
-                <p>Current Price: $${stockInfo.c}</p>
-                <p>Previous Close: $${stockInfo.pc}</p>
-                <p>High: $${stockInfo.h}</p>
-                <p>Low: $${stockInfo.l}</p>
-                <p>Volume: ${stockInfo.v}</p>
-            `;
-
-            // Update the HTML content
-            stockDataElement.innerHTML = html;
-        } else {
-            console.error('Failed to fetch stock data:', data.error);
-        }
-    } catch (error) {
-        console.error('Error fetching stock data:', error);
-    }
-}
-
-// Call fetchStockData function when the DOM content is loaded
-document.addEventListener('DOMContentLoaded', fetchStockData);
 

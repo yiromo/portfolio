@@ -13,15 +13,16 @@
 <h2>Add Portfolio Item</h2>
 <form id="addPortfolioForm" enctype="multipart/form-data">
     <div class="form__group field">
-        <input type="text" placeholder="Information" name="information" id="information" required />
         <label for="information" >Information</label>
+        <input type="text" placeholder="Information" name="information" id="information" required />
     </div>
     <div class="form__group field">
-        <textarea class="form__field" placeholder="Description" name="description" id="description" required></textarea>
         <label for="description">Description</label>
+        <textarea class="form__field" placeholder="Description" name="description" id="description" required></textarea>
     </div>
-    <label for="files" class="form-label">Files:</label><br>
-    <input type="file" class="form-control" id="files" name="files" multiple accept="image/*, video/*"><br> <!-- Removed "required" attribute -->
+    <label for="files" class="form-label">Images:</label><br>
+    <input type="file" class="form-control" id="files" name="files" multiple accept="image/*"><br>
+    <br>
     <button type="submit">Create a Post</button>
 </form>
 

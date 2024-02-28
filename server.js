@@ -7,9 +7,12 @@ const nodemailer = require('nodemailer');
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI('c71959a64cc749c3b23722ef5b0c5c2c');
 const finnhub = require('finnhub');
-const apiKey = 'cne469pr01qml3k224ngcne469pr01qml3k224o0';
+const api_key = finnhub.ApiClient.instance.authentications['api_key'];
+api_key.apiKey = "cne469pr01qml3k224ngcne469pr01qml3k224o0"
 const finnhubClient = new finnhub.DefaultApi();
 
+const app = express();
+const session = require('express-session');
 newsapi.v2.topHeadlines({
     q: 'bitcoin',
     category: 'business',
@@ -19,16 +22,14 @@ newsapi.v2.topHeadlines({
     console.log(response);
 });
 
-const app = express();
-const session = require('express-session');
 
 // StockApi
+
 app.get('/stock/:symbol', async (req, res) => {
     try {
         const { symbol } = req.params;
 
-        // Fetch stock data using Finnhub API
-        const finnhubResponse = await finnhubClient.quote(symbol, (error, data, response) => {
+        finnhubClient.quote(symbol, (error, data, response) => {
             if (error) {
                 console.error('Error fetching stock data from Finnhub:', error);
                 res.status(500).json({ error: 'Failed to fetch stock data' });
@@ -42,6 +43,7 @@ app.get('/stock/:symbol', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch stock data' });
     }
 });
+
 
 // NewsAPI
 app.get('/news', async (req, res) => {
@@ -118,8 +120,6 @@ const portfolioItemSchema = new mongoose.Schema({
 
 const PortfolioItem = mongoose.model('PortfolioItem', portfolioItemSchema);
 
-// Create a new portfolio item
-// Create a new portfolio item
 app.post('/api/portfolio', async (req, res) => {
     try {
         const { information, description, files } = req.body;
@@ -262,9 +262,13 @@ app.post('/register', async (req, res) => {
             role: req.body.role // Get the role from the registration form
         });
         await user.save();
+
+        // Automatically log in the user after registration
         req.session.loggedIn = true;
         req.session.user = user;
-        res.send('Registration successful');
+
+        // Redirect the user to the index page
+        res.redirect('/');
     } catch (error) {
         res.status(500).send('Error registering user');
     }

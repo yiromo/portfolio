@@ -99,8 +99,12 @@ button {
 }
 
 button:hover {
-    background-color: #005ea6; /* Darker blue on hover */
-}
+    background-color: #005ea6;
+    animation: pulse 2s infinite;
+}@keyframes pulse {
+     0%, 100% {transform: scale(1);}
+     50% {transform: scale(1.08);}
+ }
 
 input[type="email"],
 input[type="text"],
@@ -179,7 +183,8 @@ a:hover {
 }
 
 .github-button {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
     padding: 10px 20px;
     background-color: #2EA44F; /* GitHub green color */
     color: #FFF;
@@ -190,7 +195,34 @@ a:hover {
     transition: background-color 0.3s ease;
 }
 
-.github-button:hover {
-    background-color: #22863A; /* Darker green color on hover */
+.github-button:hover {animation: bounce 1s infinite; background-color: #22863A;}
+@keyframes bounce{
+    0% {transform: translateY(0);}
+    40% { transform: translateY(-5px);}
+    60% { transform: translateY(-2px)}
 }
 
+label{
+    color: #cccccc;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.stockResult p{
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    color: #2EA44F;
+}
+
+.registerForm{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.loginForm{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}

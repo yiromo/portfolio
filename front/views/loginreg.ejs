@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>User Registration</h1>
+<div class="registerForm">
 <form id="registerForm" action="/register" method="post">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required><br>
@@ -19,8 +20,10 @@
     <input type="password" id="password" name="password" required><br>
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
-
+</div>
+<hr>
 <h1>User Login</h1>
+<div class="loginForm">
 <form id="loginForm" action="/login" method="post" style="display: none;">
     <label for="loginUsername">Username:</label>
     <input type="text" id="loginUsername" name="username" required><br>
@@ -30,6 +33,7 @@
 
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
+</div>
 <button id="toggleBtn">Switch to Login</button>
 </body>
 <script src="../script.js"></script>
