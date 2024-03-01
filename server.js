@@ -5,10 +5,10 @@ const mongoose = require('mongoose');
 const path = require('path');
 const nodemailer = require('nodemailer');
 const NewsAPI = require('newsapi');
-const newsapi = new NewsAPI('c71959a64cc749c3b23722ef5b0c5c2c');
+const newsapi = new NewsAPI('your_api_key');
 const finnhub = require('finnhub');
 const api_key = finnhub.ApiClient.instance.authentications['api_key'];
-api_key.apiKey = "cne469pr01qml3k224ngcne469pr01qml3k224o0"
+api_key.apiKey = "your_api_key"
 const finnhubClient = new finnhub.DefaultApi();
 
 const app = express();
@@ -53,7 +53,7 @@ app.get('/news', async (req, res) => {
             category: 'business',
             language: 'en',
             country: 'us',
-            apiKey: 'c71959a64cc749c3b23722ef5b0c5c2c'
+            apiKey: 'your_api_key'
         });
         res.json(response.articles);
     } catch (error) {
@@ -85,15 +85,15 @@ app.post('/send-email', (req, res) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'yungpxxp@gmail.com',
-            pass: 'dhgmbnsqhjdpsexh',
+            user: 'example@gmail.com',
+            pass: 'your_pass',
         },
     });
 
     // Email content
     const mailOptions = {
-        from: 'yungpxxp@gmail.com',
-        to: 'airshowyt@gmail.com', // Your email address
+        from: 'example@gmail.com',
+        to: 'receiver@gmail.com', // Your email address
         subject: subject,
         text: `Email from: ${email}\n\n${content}`,
     };
@@ -178,7 +178,7 @@ app.delete('/api/portfolio/:id', async (req, res) => {
 
 
 
-mongoose.connect('mongodb+srv://yi:lkH4h6RCuOynooi2@portfolio.id7k4yj.mongodb.net/portfolio', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://username:password@portfolio.id7k4yj.mongodb.net/nameofdata', { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
